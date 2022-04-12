@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  etl:
+    image: etl-worker
+    container_name: etl
+    restart: always
+    volumes:
+      ## if you use AWS MSK, need to set credentials
+      - './example_producer/init/config:/project/.aws/config'
+      - './example_producer/init/credentials:/project/.aws/credentials'
+    command: "worker worker"
+    environment:
+      - AWS_CONFIG_FILE=/project/.aws/config
+      - AWS_SHARED_CREDENTIALS_FILE=/project/.aws/credentials
+      - SR_USR={schema_registry_username}
+      - SR_PWD={schema_registry_password}
+      - ENV=dev ## 依據狀況設定來模擬
+      
