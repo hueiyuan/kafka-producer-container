@@ -2,7 +2,7 @@ version: '3'
 
 services:
   example_producer:
-    image: example_producer
+    image: example_producer_img
     container_name: example_producer
     restart: always
     volumes:
