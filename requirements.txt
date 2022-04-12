@@ -1,0 +1,7 @@
+boto3==1.18.36
+confluent-kafka==1.7.0
+fastavro==1.4.5
+gevent==21.8.0
+requests==2.23.0
+requests-oauthlib==1.3.0
+PyYAML==5.4.1
