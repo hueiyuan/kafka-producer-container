@@ -26,6 +26,7 @@ RUN apt-get update && \
 ADD entry.sh /project/
 COPY example_producer/ /project/example_producer/
 COPY project_configs/ /project/example_producer/project_configs/
-COPY project_configs/ /project/example_producer/project_libs/
+COPY project_libs/ /project/example_producer/project_libs/
+COPY helpers/ /project/example_producer/helpers/
 WORKDIR /project
 ENTRYPOINT ["/project/entry.sh"]
