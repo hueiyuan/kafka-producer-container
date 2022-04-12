@@ -27,8 +27,8 @@ class MskSerializingProducer:
         config['sticky.partitioning.linger.ms'] = 20000
         config['compression.type'] = 'lz4'
         config['error_cb'] = self.__error_callback_func
-        
         config['value.serializer'] = avro_serializer
+        
         self.producer = SerializingProducer(config)
 
     @classmethod
