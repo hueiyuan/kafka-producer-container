@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  etl:
-    image: etl-worker
-    container_name: etl
+  example_producer:
+    image: example_producer
+    container_name: example_producer
     restart: always
     volumes:
       ## if you use AWS MSK, need to set credentials
