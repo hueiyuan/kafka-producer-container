@@ -1,6 +1,5 @@
-import json
 import certifi
-from datetime import datetime
+from uuid import uuid4
 
 from confluent_kafka import KafkaError, KafkaException, Message
 from confluent_kafka import SerializingProducer
@@ -68,29 +67,18 @@ class MskSerializingProducer:
         
         self.producer.produce(
             topic=self.data_tag,
+            key=str(uuid4()),
             value=message,
             on_delivery=self.__delivery_func)
 
     def __error_callback_func(self, kafka_error: KafkaError):
         raise KafkaException(kafka_error)
 
-    def __delivery_func(self, proessed_start_dt: str):
-        return lambda err, msg: self.__message_callback(err, msg)
-
-    def __message_callback(self, 
-                           kafka_error: KafkaError, 
-                           msg: Message):
+    def __delivery_func(self,
+                        kafka_error: KafkaError, 
+                        msg: Message):
         if kafka_error is not None:
-            print('Message delivery failed: {}'.format(kafka_error))
-            raise KafkaException(kafka_error)
-        elif MskSerializingProducer.is_data_monitor and kafka_error is None:
-            produce_kafka_time = msg.timestamp()[1]
-            
-            msg_info = {
-                'latency': msg.latency(),
-                'kafka_offset': msg.offset(),
-                'topic_partition': msg.partition(),
-                'data_tag': msg.topic(),
-                'produce_kafka_time': datetime.fromtimestamp(produce_kafka_time / 1e3).strftime("%Y-%m-%d %H:%M:%S.%f"),
-            }
-            
+            print("Delivery failed for User record {}: {}".format(msg.key(), err))
+            return
+        print('User record {} successfully produced to {} [{}] at offset {}'.format(
+            msg.key(), msg.topic(), msg.partition(), msg.offset()))
