@@ -24,6 +24,8 @@ RUN apt-get update && \
         /var/tmp/*
 
 ADD entry.sh /project/
-COPY worker/ /project/worker/
+COPY example_producer/ /project/example_producer/
+COPY project_configs/ /project/example_producer/project_configs/
+COPY project_configs/ /project/example_producer/project_libs/
 WORKDIR /project
 ENTRYPOINT ["/project/entry.sh"]
